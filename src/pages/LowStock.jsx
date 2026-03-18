@@ -3,9 +3,12 @@ import { DataGrid } from '@mui/x-data-grid';
 import { AlertCircle, ArrowUpRight, ShoppingCart, RefreshCcw } from 'lucide-react';
 import { Card, Button, Loader } from '../components/common/UIComponents';
 import productService from '../services/productService';
+import inventoryService from '../services/inventoryService';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const LowStock = () => {
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -25,6 +28,23 @@ const LowStock = () => {
       toast.error('Failed to load low stock items');
     } finally {
       setLoading(false);
+    }
+  };
+  
+  const handleReorder = async (product) => {
+    try {
+      await inventoryService.createReorder({
+        productId: product._id,
+        productName: product.name,
+        supplierId: product.supplierId?._id,
+        supplierName: product.supplierId?.name || 'Unknown Supplier',
+        suggestedQuantity: product.threshold * 2,
+        status: 'PENDING'
+      });
+      toast.success(`Reorder initiated for ${product.name}`);
+      navigate('/reorders');
+    } catch (error) {
+      toast.error('Failed to initiate reorder');
     }
   };
 
@@ -57,13 +77,25 @@ const LowStock = () => {
         <span className="font-bold text-gray-400">{params.value}</span>
       )
     },
-    { field: 'category', headerName: 'Category', width: 150 },
+    { 
+      field: 'categoryId', 
+      headerName: 'Category', 
+      width: 150,
+      renderCell: (params) => (
+        <span className="text-[10px] font-black uppercase tracking-widest text-gray-500">
+          {params.row.categoryId?.name || 'N/A'}
+        </span>
+      )
+    },
     { 
       field: 'actions', 
       headerName: 'Actions', 
       width: 180,
-      renderCell: () => (
-        <Button className="!py-1.5 !px-4 text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
+      renderCell: (params) => (
+        <Button 
+          onClick={() => handleReorder(params.row)}
+          className="!py-1.5 !px-4 text-[10px] font-black uppercase tracking-widest flex items-center gap-2 hover:bg-black hover:text-white transition-all"
+        >
           <RefreshCcw size={12} /> REORDER
         </Button>
       )

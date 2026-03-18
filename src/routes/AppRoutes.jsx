@@ -21,6 +21,7 @@ import ManageStaff from '../pages/Admin/ManageStaff';
 import StaffLogin from '../pages/Auth/StaffLogin';
 import NotificationPage from '../pages/NotificationPage';
 import ApplicationMessages from '../pages/ApplicationMessages';
+import InventoryLogs from '../pages/InventoryLogs';
 
 const AppRoutes = () => {
   return (
@@ -148,6 +149,16 @@ const AppRoutes = () => {
           <ProtectedRoute>
             <DashboardLayout>
               <NotificationPage />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/inventory-logs" 
+        element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <InventoryLogs />
             </DashboardLayout>
           </ProtectedRoute>
         } 

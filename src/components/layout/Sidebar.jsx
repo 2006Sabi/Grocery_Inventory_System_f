@@ -29,7 +29,8 @@ const Sidebar = () => {
     { name: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
     { name: 'Products', icon: Package, path: '/products' },
     { name: 'Categories', icon: Layers, path: '/categories' },
-    { name: 'Inventory', icon: History, path: '/inventory' },
+    { name: 'Inventory', icon: Layers, path: '/inventory' },
+    { name: 'Inventory Logs', icon: History, path: '/inventory-logs' },
 
     { name: 'Suppliers', icon: Users, path: '/suppliers' },
     { name: 'Reorders', icon: RefreshCw, path: '/reorders' },

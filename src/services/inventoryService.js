@@ -1,7 +1,8 @@
 import api from './api';
 
 const inventoryService = {
-  getLogs: () => api.get('/inventory/logs'),
+  getLogs: (params) => api.get('/inventory/logs', { params }),
+  getLogsByProductId: (id) => api.get(`/inventory/logs/${id}`),
   updateStock: (productId, data) => api.post(`/inventory/update/${productId}`, data),
   getLowStock: () => api.get('/products/low-stock'),
   getExpiryAlerts: () => api.get('/products/expiry-priority'),

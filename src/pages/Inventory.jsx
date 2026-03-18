@@ -60,7 +60,16 @@ const Inventory = () => {
 
   const levelColumns = [
     { field: 'name', headerName: 'Product', flex: 1 },
-    { field: 'category', headerName: 'Category', width: 150 },
+    { 
+      field: 'categoryId', 
+      headerName: 'Category', 
+      width: 150,
+      renderCell: (params) => (
+        <span className="text-xs font-bold text-gray-600 uppercase tracking-tighter bg-gray-50 px-2 py-1 rounded-md border border-gray-100">
+          {params.row.categoryId?.name || 'N/A'}
+        </span>
+      )
+    },
     { 
       field: 'stock', 
       headerName: 'Current Stock', 
