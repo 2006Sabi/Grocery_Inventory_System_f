@@ -17,16 +17,24 @@ export const Card = ({ children, title, subtitle, className = '', rightElement =
 );
 
 // Button Component
-export const Button = ({ children, variant = 'primary', className = '', ...props }) => {
+export const Button = ({ children, variant = 'primary', loading = false, className = '', ...props }) => {
   const variants = {
     primary: 'btn-black',
+    secondary: 'bg-white border-2 border-black text-black hover:bg-gray-50 px-6 py-2.5 rounded-xl transition-all active:scale-[0.98] font-bold uppercase tracking-wider',
     outline: 'btn-outline',
     ghost: 'hover:bg-gray-100 text-black px-4 py-2 rounded-xl transition-all',
     danger: 'bg-red-500 text-white px-6 py-2.5 rounded-xl hover:bg-red-600 transition-all active:scale-[0.98]',
   };
 
   return (
-    <button className={`${variants[variant]} ${className}`} {...props}>
+    <button 
+      className={`${variants[variant] || variants.primary} ${className} ${loading ? 'opacity-70 cursor-not-allowed' : ''} flex items-center justify-center gap-2`} 
+      disabled={loading}
+      {...props}
+    >
+      {loading && (
+        <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
+      )}
       {children}
     </button>
   );
